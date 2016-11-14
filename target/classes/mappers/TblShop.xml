@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TblShop">
+  <resultMap id="BaseResultMap" type="com.zhy.spider.bean.Shop">
+    
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="keyStr" jdbcType="VARCHAR" property="keyStr" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="other_name" jdbcType="VARCHAR" property="otherName" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="first_time" jdbcType="VARCHAR" property="firstTime" />
+    <result column="first_category" jdbcType="VARCHAR" property="firstCateGory" />
+	<result column="city_name" jdbcType="VARCHAR" property="cityName" />
+ 	<result column="second_category" jdbcType="VARCHAR" property="secondCateGory" />
+    
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+  	id,name,address,other_name,url,first_time,first_category,city_name,second_category
+  </sql>
+  
+  <insert id="insert" parameterType="com.zhy.spider.bean.Shop">
+  	insert INTO shop (keyStr,name,address,tel,other_name,url,first_time,first_category,city_name,second_category,update_time)
+  	values (#{keyStr,jdbcType=BIGINT},#{name,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{tel,jdbcType=VARCHAR},
+  	#{otherName,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{firstTime,jdbcType=VARCHAR},
+  	#{firstCateGory,jdbcType=VARCHAR},#{cityName,jdbcType=VARCHAR},#{secondCateGory,jdbcType=VARCHAR},NOW())
+  </insert>
+  
+   <insert id="insertBatch" parameterType="map">
+  	insert INTO shop (keyStr,name,address,tel,other_name,url,first_time,first_category,city_name,second_category,update_time)
+  	values 
+  	<foreach collection="shopList" item="item" index="index" separator=",">
+  	(#{item.keyStr,jdbcType=BIGINT},#{item.name,jdbcType=VARCHAR},#{item.address,jdbcType=VARCHAR},#{item.tel,jdbcType=VARCHAR},
+  	#{item.otherName,jdbcType=VARCHAR},#{item.url,jdbcType=VARCHAR},#{item.firstTime,jdbcType=VARCHAR},
+  	#{item.firstCateGory,jdbcType=VARCHAR},#{item.cityName,jdbcType=VARCHAR},#{item.secondCateGory,jdbcType=VARCHAR},NOW())
+  	</foreach>
+  </insert>
+  <select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select * from shop where id = #{id,jdbcType=BIGINT}
+  </select>
+</mapper>

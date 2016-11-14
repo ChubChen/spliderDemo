@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TblShopError">
+  <resultMap id="BaseResultMap" type="com.zhy.spider.bean.ShopError">
+    
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="errmsg" jdbcType="VARCHAR" property="errmsg" />
+	<result column="type" jdbcType="INTEGER" property="type" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+  	id,url,errmsg,type
+  </sql>
+  
+  <insert id="insert" parameterType="com.zhy.spider.bean.ShopError">
+  	insert INTO shoperror (url,errmsg,type)
+  	values (#{url,jdbcType=BIGINT},#{errmsg,jdbcType=VARCHAR},#{type,jdbcType=INTEGER})
+  </insert>
+  
+   <insert id="insertBatch" parameterType="map">
+  	insert INTO shoperror (url,errmsg,type)
+  	values 
+  	<foreach collection="shopList" item="item" index="index" separator=",">
+  		(#{item.url,jdbcType=BIGINT},#{item.errmsg,jdbcType=VARCHAR},#{item.type,jdbcType=INTEGER})
+  	</foreach>
+  </insert>
+  <select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select * from shoperror where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectOne" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select * from shoperror where type in (0,1,2,3) limit 1
+  </select>
+  <select id="deleteById" >
+   delete from shoperror where id = #{id,jdbcType=BIGINT}
+  </select>
+</mapper>
